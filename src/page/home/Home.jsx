@@ -1,9 +1,10 @@
+import Navbar from "./nav/Navbar";
 
 
 const Home = () => {
     return (
         <div>
-            hhhhh
+          <Navbar></Navbar>
         </div>
     );
 };
