@@ -3,8 +3,32 @@ import { MdShoppingCart } from "react-icons/md";
 import Darkmood from "../../../Darkmood/Darkmood";
 import NavbarRoute from "./NavbarRoute";
 
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../../Authprovider/Authprovider";
+
+
+
 
 const Navbar = () => {
+
+  const { user, logOut } = useContext(AuthContext);
+  const username = user?.displayName;
+  const photoUrl = user?.photoURL;
+
+  const handleSignOut = () => {
+    logOut()
+      .then((result) => {
+        console.log(result);
+        Swal.fire({
+          icon: 'success',
+          text: 'Sign Out Successfully',
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className="shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40">
       {/* upper */}
@@ -43,6 +67,32 @@ const Navbar = () => {
                 <MdShoppingCart className="text-xl text-white drop-shadow-lg cursor-pointer"/>
               </button>
             <Darkmood></Darkmood>
+            {/* login logout */}
+
+
+
+            <div className="flex items-center space-x-4">
+          {user ? (
+            <div className="flex items-center space-x-4">
+              <div className="text-white">{username}</div>
+              <img
+                src={photoUrl}
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full border-2 border-white"
+              />
+              <button onClick={handleSignOut} className="text-white">
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="text-white">
+              Login
+            </Link>
+          )}
+        </div>
+
+
+
             </div>
           </div>
         </div>

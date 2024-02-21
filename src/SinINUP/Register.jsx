@@ -1,184 +1,77 @@
-import { useForm } from "react-hook-form";
-import useAuthcontext from "../hook/authcontext/useAuthcontext";
-import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import usePublicApi from "../hook/publicApi/usePublicApi";
-import Swal from "sweetalert2";
-import SectionTitle from "../Components/SectionTitle/SectionTitle";
-
+import { useContext } from "react";
+import { AuthContext } from "../Authprovider/Authprovider";
+import { useForm } from "react-hook-form";
+import Googlelogin from "../Components/Googlelogin/Googlelogin";
 
 const Register = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-      } = useForm();
-      const formRef = useRef(null);
-      const authentication = useAuthcontext();
-      const { createUserWithEmail, profileUpdate, logOut } = authentication;
-      const navigate = useNavigate();
-      const publicApi = usePublicApi();
-    
-      const onSubmit = (data) => {
-        const { username, url, password, email, occupation } = data;
-        createUserWithEmail(email, password)
-          .then((result) => {
-            console.log(result);
-    
-            const formData = {
-              username,
-              email,
-              occupation,
-            };
-            publicApi
-              .post('/users', formData)
-              .then((result) => console.log(result))
-              .catch((error) => console.log(error));
-    
-            profileUpdate(username, url)
-              .then((result) => {
-                console.log(result);
-                formRef.current.reset();
-    
-                logOut()
-                  .then((result) => {
-                    console.log(result);
-                    Swal('sign Up successfully', 'Please login', 'success');
-                    navigate('/login');
-                  })
-                  .catch((error) => console.log(error));
-              })
-              .catch((error) => console.log(error));
-          })
-          .catch((error) => console.log(error));
-      };
-      return (
-        <div>
-          <SectionTitle heading="register page" subHeading="create your account" />
-    
-          <div className="flex justify-center items-center my-20">
-            <div className="bg-colorTwo rounded-lg">
-              <form
-                className="m-[5rem]"
-                onSubmit={handleSubmit(onSubmit)}
-                ref={formRef}
-              >
-                <div className="form-control my-8">
-                  <label className="label">
-                    <span className="font-lora text-2xl uppercase font-semibold tracking-widest">
-                      Name
-                    </span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="User name"
-                    className="outline-none border-[2px] border-lightOne p-4 rounded-lg font-poppins text-2xl"
-                    {...register('username', { required: true })}
-                  />
-                  {errors.username && (
-                    <span className="font-poppins p-2 text-sm text-red-600 font-light">
-                      Display name Field is required
-                    </span>
-                  )}
-                </div>
-                {/* PhotoUrl */}
-                <div className="form-control my-8">
-                  <label className="label">
-                    <span className="font-lora text-2xl uppercase font-semibold tracking-widest">
-                      Photo Url
-                    </span>
-                  </label>
-                  <input
-                    type="url"
-                    placeholder="Photo URL"
-                    className="outline-none border-[2px] border-lightOne p-4 rounded-lg font-poppins text-2xl"
-                    {...register('url', { required: true })}
-                  />
-                  {errors.url && (
-                    <span className="font-poppins p-2 text-sm text-red-600 font-light">
-                      Photo Url Field is required
-                    </span>
-                  )}
-                </div>
-                {/* Email */}
-                <div className="form-control my-8">
-                  <label className="label">
-                    <span className="font-lora text-2xl uppercase font-semibold tracking-widest">
-                      Email
-                    </span>
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="email"
-                    className="outline-none border-[2px] border-lightOne p-4 rounded-lg font-poppins text-2xl"
-                    {...register('email', { required: true })}
-                  />
-                  {errors.email && (
-                    <span className="font-poppins p-2 text-sm text-red-600 font-light">
-                      Email Field is required
-                    </span>
-                  )}
-                </div>
-                {/* Password */}
-                <div className="form-control my-8">
-                  <label className="label">
-                    <span className="font-lora text-2xl uppercase font-semibold tracking-widest">
-                      Password
-                    </span>
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="password"
-                    className="outline-none border-[2px] border-lightOne p-4 rounded-lg font-poppins text-2xl"
-                    {...register('password', { required: true })}
-                  />
-                  {errors.password && (
-                    <span className="font-poppins p-2 text-sm text-red-600 font-light">
-                      Password Field is required
-                    </span>
-                  )}
-                </div>
-                {/* occupation */}
-                <div className="form-control my-8">
-                  <label className="label">
-                    <span className="font-lora text-2xl uppercase font-semibold tracking-widest">
-                      Occupation
-                    </span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="type your occupation"
-                    className="outline-none border-[2px] border-lightOne p-4 rounded-lg font-poppins text-2xl"
-                    {...register('occupation', { required: true })}
-                  />
-                  {errors.occupation && (
-                    <span className="font-poppins p-2 text-sm text-red-600 font-light">
-                      Occupation Field is required
-                    </span>
-                  )}
-                </div>
-                <div className="form-control mt-6">
-                  <button className="bg-darkOne btn btn-gost text-lightThree px-8 py-2 text-2xl font-lora rounded-lg hover:bg-transparent hover:text-darkOne border-2 border-darkOne">
-                    Sign Up
-                  </button>
-                </div>
-              </form>
-    
-              {/* Login route */}
-              <div className="text-center text-2xl pt-4 pb-12">
-                <p className="font-lora text-darkOne capitalize">
-                  Already have a account
-                  <Link to="/login">
-                    <span className="font-semibold uppercase">Login</span>
-                  </Link>
-                </p>
-              </div>
-             
-            </div>
-          </div>
-          
-        </div>
-      );
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const axiosopenApi = usePublicApi();
+
+    const onSubmit = async (data) => {
+        try {
+            const result = await createUser(data.email, data.password);
+            const loggedUser = result.user;
+            console.log(loggedUser);
+
+            await updateUserProfile(data.name, data.photoURL);
+
+            const userInfo = { name: data.name, email: data.email };
+            await axiosopenApi.post("/users", userInfo);
+            navigate('/');
+        } catch (error) {
+            console.error("Error during registration:", error);
+            // Handle error appropriately, e.g., display error message
+        }
     };
+
+    return (
+        <section>
+            <div className="hero min-h-screen flex justify-center items-center bg-gray-100">
+                <div className="card w-full max-w-md p-8 rounded-md shadow-md">
+                    <h3 className="text-4xl font-bold text-center">Sign Up</h3>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="mb-4">
+                            <label htmlFor="name" className="block mb-2">Name</label>
+                            <input type="text" {...register("name", { required: true })} id="name" className="w-full px-3 py-2 border rounded-md" placeholder="Enter your name" />
+                            {errors.name && <span className="text-red-600">Name is required</span>}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="photoURL" className="block mb-2">Photo URL</label>
+                            <input type="text" {...register("photoURL", { required: true })} id="photoURL" className="w-full px-3 py-2 border rounded-md" placeholder="Enter photo URL" />
+                            {errors.photoURL && <span className="text-red-600">Photo URL is required</span>}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block mb-2">Email</label>
+                            <input type="email" {...register("email", { required: true })} id="email" className="w-full px-3 py-2 border rounded-md" placeholder="Enter your email" />
+                            {errors.email && <span className="text-red-600">Email is required</span>}
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="password" className="block mb-2">Password</label>
+                            <input type="password" {...register("password", {
+                                required: true,
+                                minLength: 6,
+                                maxLength: 20,
+                                pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/
+                            })} id="password" className="w-full px-3 py-2 border rounded-md" placeholder="Enter your password" />
+                            {errors.password?.type === 'required' && <span className="text-red-600">Password is required</span>}
+                            {errors.password?.type === 'minLength' && <span className="text-red-600">Password must be at least 6 characters</span>}
+                            {errors.password?.type === 'maxLength' && <span className="text-red-600">Password must be less than 20 characters</span>}
+                            {errors.password?.type === 'pattern' && <span className="text-red-600">Password must contain at least one uppercase, one lowercase, one number, and one special character</span>}
+                        </div>
+                        <div className="form-control mt-6">
+                            <input type="submit" className="btn bg-primary text-white w-full py-2 rounded-md hover:bg-[#D1A054] transition-colors duration-300" value="Sign Up" />
+                        </div>
+                    </form>
+                    <p className="mt-4 text-center">Already registered? <Link to={'/login'} className="text-blue-500 font-bold">Go to log in</Link></p>
+                    <Googlelogin />
+                </div>
+            </div>
+        </section>
+    );
+};
 
 export default Register;

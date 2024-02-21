@@ -1,83 +1,74 @@
-import  { createContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import {
-  GithubAuthProvider,
-  GoogleAuthProvider,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  updateProfile,
-} from 'firebase/auth';
-import globalAuth from '../Firebase.config';
+import { createContext, useEffect, useState } from "react";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 
 
-const AppContext = createContext(null);
+import usePublicApi from "../hook/publicApi/usePublicApi";
+import { app } from "../Firebase.config";
 
-const AppProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  const googleProvider = new GoogleAuthProvider();
-  const githubProvider = new GithubAuthProvider();
 
-  const createUserWithEmail = (email, password) => {
-    setLoading(true);
-    return createUserWithEmailAndPassword(globalAuth, email, password);
-  };
+export const AuthContext = createContext(null);
 
-  const loginUserWithEmail = (email, password) => {
-    setLoading(true);
-    return signInWithEmailAndPassword(globalAuth, email, password);
-  };
+const auth = getAuth(app);
 
-  const googleLogin = () => {
-    setLoading(true);
-    return signInWithPopup(globalAuth, googleProvider);
-  };
+// eslint-disable-next-line react/prop-types
+const Authprovider = ({ children }) => {
+    const axiosopenApi = usePublicApi()
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  const githubLogin = () => {
-    setLoading(true);
-    return signInWithPopup(globalAuth, githubProvider);
-  };
+   
+    const createUser = (email, password) => {
+        setLoading(true);
+        return createUserWithEmailAndPassword(auth, email, password)
+    }
 
-  const profileUpdate = (name, photoUrl) => {
-    return updateProfile(globalAuth.currentUser, {
-      displayName: name,
-      photoURL: photoUrl,
-    });
-  };
+    const signIn = (email, password) => {
+        setLoading(true);
+        return signInWithEmailAndPassword(auth, email, password);
+    }
 
-  const logOut = () => {
-    setLoading(true);
-    return signOut(globalAuth);
-  };
+    const logInWithGoogle = async () => {
+        const provider = new GoogleAuthProvider();
+        return signInWithPopup(auth , provider)
+      };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(globalAuth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
+    const logOut = () => {
+        setLoading(true);
+        return signOut(auth);
+    }
 
-    return () => unsubscribe();
-  }, []);
+    const updateUserProfile = (name, photo) => {
+        return updateProfile(auth.currentUser, {
+            displayName: name, photoURL: photo
+        });
+    }
 
-  const info = {
-    createUserWithEmail,
-    loginUserWithEmail,
-    user,
-    loading,
-    profileUpdate,
-    logOut,
-    googleLogin,
-    githubLogin,
-  };
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+            setUser(currentUser);
+        
+            
+        });
+        return () => {
+            return unsubscribe();
+        }
+    }, [axiosopenApi])
 
-  return <AppContext.Provider value={info}>{children}</AppContext.Provider>;
+    const authInfo = {
+        user,
+        loading,
+        createUser,
+        signIn,
+        logInWithGoogle,
+        logOut,
+        updateUserProfile
+    }
+
+    return (
+        <AuthContext.Provider value={authInfo}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
-AppProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-export { AppContext, AppProvider };
+export default Authprovider;
