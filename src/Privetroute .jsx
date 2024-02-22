@@ -6,10 +6,11 @@ import { AuthContext } from "./Authprovider/Authprovider";
 
 // eslint-disable-next-line react/prop-types
 const Privetroute = ({children}) => {
-    const { user} = useContext(AuthContext);
+       
+        const { user, loading} = useContext(AuthContext);
     
 
-
+if (loading) return <span className="loading loading-bars loading-lg"></span>
 
     if (user) {
         return children;

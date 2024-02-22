@@ -1,22 +1,14 @@
-import PropTypes from 'prop-types';
-
-const SectionTitle = (props) => {
-  const { heading, subHeading } = props;
+// eslint-disable-next-line react/prop-types
+const Sectiontitle = ({ subtitle, mainTitle, discription }) => {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h1 className="text-2xl md:text-3xl lg:text-4xl text-darkOne font-bold font-lora uppercase py-4">
-        {heading}
-      </h1>
-      <h2 className="text-xl md:text-2xl lg:text-3xl font-lora font-semibold text-darkThree tracking-widest capitalize py-4 border-b-2 border-lightOne">
-        {subHeading}
-      </h2>
+    <div>
+      <div className="text-center mb-10 max-w-[600px] mx-auto space-y-4">
+        <p className=" text-sm text-primary uppercase">{subtitle}</p>
+        <h1 className="text-3xl font-bold uppercase">{mainTitle}</h1>
+        <p className="text-xs text-gray-400">{discription}</p>
+      </div>
     </div>
   );
 };
 
-SectionTitle.propTypes = {
-  heading: PropTypes.string.isRequired,
-  subHeading: PropTypes.string.isRequired,
-};
-
-export default SectionTitle;
+export default Sectiontitle;

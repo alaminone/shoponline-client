@@ -36,7 +36,7 @@ const Navbar = () => {
         <div className="container flex justify-between items-center">
           <div>
             <a
-              href=""
+              href="/"
               className="uppercase font-bold text-2xl sm:text-3xl flex gap-2"
             >
               <img

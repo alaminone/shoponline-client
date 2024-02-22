@@ -1,0 +1,43 @@
+[
+    {
+      "id": 1,
+      "title": "Elegant Evening Gown",
+      "rating": 4.8,
+      "color": "white",
+      "asoDelay": 20,
+      "img": "https://i.ibb.co/Rcx2DZW/young-woman-getting-ready-wedding-fotor-20240113215454.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Casual Summer Dress",
+      "rating": 4.5,
+      "color": "Green",
+      "asoDelay": 15,
+      "img": "https://i.ibb.co/zXF6XNY/woman-green-dress-hat-yellow-background-1.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Chic Cocktail Dress",
+      "rating": 4.9,
+      "color": "Off White",
+      "asoDelay": 25,
+      "img": "https://i.ibb.co/KssPvwP/gorgeous-young-caucasian-redhead-lady-dress-touches-her-hair-while-looking-away-pink-background-fash.jpg"
+    },
+    {
+      "id": 4,
+      "title": "Bohemian Maxi Dress",
+      "rating": 4.7,
+      "color": "Black and White",
+      "asoDelay": 30,
+      "img": "https://i.ibb.co/28wRrTH/smiley-woman-posing-with-shopping-bags-sale-tags-fotor-20240113223947.jpg"
+    },
+    {
+        "id": 5,
+        "title": "Vintage Lace Dress",
+        "rating": 4.6,
+        "color": "Pastel Pink",
+        "asoDelay": 18,
+        "img": "https://i.ibb.co/0CgZgcB/Sample-photo-fotor-20240113223357.jpg"
+      }
+  ]
+  

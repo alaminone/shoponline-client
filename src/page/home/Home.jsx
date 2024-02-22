@@ -1,3 +1,5 @@
+
+
 import Bannar from "./bannar/Bannar";
 
 
@@ -7,6 +9,8 @@ const Home = () => {
         <div>
          
           <Bannar></Bannar>
+       
+         
         </div>
     );
 };
