@@ -39,7 +39,20 @@ const NavbarRoute = () => {
           }
         >Womens Wear</NavLink>
     </li>
- 
+    <li>
+        <NavLink to={'/addproduct'}
+            className={({ isActive, isPending }) =>
+            isPending ? "pending " : isActive ? "font-bold  text-primary text-xl border-b-4  border-primary" : ""
+          }
+        >Add Product</NavLink>
+    </li>
+    <li>
+        <NavLink to={'/mycart'}
+            className={({ isActive, isPending }) =>
+            isPending ? "pending " : isActive ? "font-bold  text-primary text-xl border-b-4  border-primary" : ""
+          }
+        >My cart </NavLink>
+    </li>
    
     
     </>

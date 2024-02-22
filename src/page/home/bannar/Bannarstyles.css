@@ -1,0 +1,9 @@
+.herocontent {
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 80rem;
+    padding-right: 2rem; 
+    overflow: hidden; 
+}
