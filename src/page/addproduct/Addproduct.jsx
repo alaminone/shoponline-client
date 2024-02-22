@@ -1,6 +1,10 @@
+
 import  { useState } from 'react';
+import Swal from 'sweetalert2';
+import usePublicApi from '../../hook/publicApi/usePublicApi';
 
 const Addproduct = () => {
+    const axiosopenApi = usePublicApi();
     const [product, setProduct] = useState({
         image: '',
         name: '',
@@ -16,10 +20,41 @@ const Addproduct = () => {
         setProduct({ ...product, [name]: value });
       };
     
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add logic to handle form submission, e.g., save product data
-        console.log('Product data:', product);
+        
+        // Retrieve form data
+        const formData = new FormData(e.target);
+        const productData = {
+          image: formData.get('image'),
+          name: formData.get('name'),
+          type: formData.get('type'),
+          price: parseFloat(formData.get('price')),
+          rating: parseFloat(formData.get('rating')),
+          brandName: formData.get('brandName'),
+          details: formData.get('details')
+        };
+      
+        try {
+          const response = await axiosopenApi.post('/products', productData);
+      
+          if (response.status !== 201) {
+            throw new Error('Failed to add product');
+          }
+      
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Product added successfully'
+          });
+        } catch (error) {
+          console.error('Error adding product:', error.message);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to add product'
+          });
+        }
       };
     
       return (
