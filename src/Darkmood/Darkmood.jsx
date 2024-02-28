@@ -33,7 +33,7 @@ const Darkmood = () => {
         onClick={toggleDarkMode}
       >
         {darkMode ? <FiSun className="mr-2 text-2xl" /> : <FiMoon className="mr-2 text-2xl " />}
-        {darkMode ? 'Light' : 'Dark'}
+        {/* {darkMode ? 'Light' : 'Dark'} */}
       </button>
     );
   };

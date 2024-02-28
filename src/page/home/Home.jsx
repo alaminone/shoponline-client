@@ -1,5 +1,7 @@
 
 
+import Topratedproduct from "./Product/Topratedproduct";
+
 import Bannar from "./bannar/Bannar";
 
 
@@ -9,6 +11,7 @@ const Home = () => {
         <div>
          
           <Bannar></Bannar>
+         <Topratedproduct></Topratedproduct>
        
          
         </div>
